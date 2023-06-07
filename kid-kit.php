@@ -60,3 +60,5 @@
     <h1>Test</h1>    
 EOF;
 ?>
+
+Push successful.
