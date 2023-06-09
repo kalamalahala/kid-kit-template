@@ -400,11 +400,20 @@ foreach ( $nested_form_entry_ids as $entry_id ) {
 	// begin list of fields to display
 	$e = GFAPI::get_entry( $entry_id );
 
+    echo '<pagebreak/>';
+    echo 'form contents';
+    echo '<pre>';
+    print_r($e);
+    echo '</pre>';
+
 	$first_name    = ucwords( $e['3.3'] ) ?? '';
 	$last_name     = ucwords( $e['3.6'] ) ?? '';
 	$nickname      = ucwords( $e['4'] ) ?? '';
 	$gender        = ucwords( $e['5'] ) ?? '';
 	$date_of_birth = $e['6'] ?? '';
+
+    $photos_field = $e['21'];
+    $fingerprints_field = $e['35'];
 
 	$address = ( $e['8'] == 'Yes' ) ? $form_data['field'][6] : $e[''];
     $pdf = GPDFAPI::get_pdf_class();
@@ -421,13 +430,28 @@ foreach ( $nested_form_entry_ids as $entry_id ) {
         $output
     </div>
     
-    <div style="grid-column: 2; grid-row: 3; background-color: #30A24D; color: #fff; padding: 1em; font-size: 1.5em; font-weight: bold; text-align: center;">
+   <!-- <div style="grid-column: 2; grid-row: 3; background-color: #30A24D; color: #fff; padding: 1em; font-size: 1.5em; font-weight: bold; text-align: center;">
         <p style="margin: 0;">Medical Information</p>
-    </div>
+    </div> -->
 PAGE;
 
     echo $page;
+
+    echo "<pagebreak/>";
+    echo "pictures page";
+    echo processImages($photos_field);
+    echo "<pagebreak/>";
 }
+?>
+
+<pagebreak/>
+
+<?php
+
+echo "<pre>";
+echo print_r($form_data);
+echo "</pre>";
+
 ?>
 
 <!--
@@ -450,5 +474,18 @@ PAGE;
  */
 $pdf = GPDFAPI::get_pdf_class();
 $pdf->process_html_structure( $entry, GPDFAPI::get_pdf_class( 'model' ), $html_config );
+
+
+function processImages(string $urlString) {
+    $urlArray = explode(',', $urlString);
+    $output = '';
+    foreach ($urlArray as $url) {
+        // strip special characters and quotes
+        $url = str_replace('"', '', $url);
+        $url = stripslashes($url);
+        $output .= '<img src="' . $url . '" style="width: 100%; height: auto;"/> img url: ' . $url . '<br/>';
+    }
+    return $output;
+}
 
 ?>
