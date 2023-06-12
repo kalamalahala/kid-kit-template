@@ -400,12 +400,6 @@ foreach ( $nested_form_entry_ids as $entry_id ) {
 	// begin list of fields to display
 	$e = GFAPI::get_entry( $entry_id );
 
-    echo '<pagebreak/>';
-    echo 'form contents';
-    echo '<pre>';
-    print_r($e);
-    echo '</pre>';
-
 	$first_name    = ucwords( $e['3.3'] ) ?? '';
 	$last_name     = ucwords( $e['3.6'] ) ?? '';
 	$nickname      = ucwords( $e['4'] ) ?? '';
@@ -437,22 +431,11 @@ PAGE;
 
     echo $page;
 
-    echo "<pagebreak/>";
-    echo "pictures page";
     echo processImages($photos_field);
-    echo "<pagebreak/>";
 }
 ?>
 
 <pagebreak/>
-
-<?php
-
-echo "<pre>";
-echo print_r($form_data);
-echo "</pre>";
-
-?>
 
 <!--
 <div style="background-image: url('https://thejohnson.group/wp-content/uploads/2023/05/planBg.png');background-repeat: no-repeat;background-size: 100% 100%;width: 100%;height: 100%;position: absolute;top: 0;left: 0;">
@@ -466,25 +449,19 @@ echo "</pre>";
 
 <?php
 
-
-/*
- * Generate our HTML markup
- *
- * You can access Gravity PDFs common functions and classes through our API wrapper class "GPDFAPI"
- */
-$pdf = GPDFAPI::get_pdf_class();
-$pdf->process_html_structure( $entry, GPDFAPI::get_pdf_class( 'model' ), $html_config );
-
-
-function processImages(string $urlString) {
+function processImages(string $urlString): string {
     $urlArray = explode(',', $urlString);
     $output = '';
+
     foreach ($urlArray as $url) {
-        // strip special characters and quotes
+        // strip special characters and quotes and brackets
         $url = str_replace('"', '', $url);
         $url = stripslashes($url);
-        $output .= '<img src="' . $url . '" style="width: 100%; height: auto;"/> img url: ' . $url . '<br/>';
+        $url = str_replace('[', '', $url);
+        $url = str_replace(']', '', $url);
+        $output .= '<img alt="" title="" src="' . $url . '" style="width: 100%; height: auto;"/>'. 'URL:' . $url .'<pagebreak/>';
     }
+
     return $output;
 }
 
