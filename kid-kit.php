@@ -355,22 +355,20 @@ EOT;
 
 <!-- The PDF content should be placed in here -->
 <div style="
-    background-image: url('https://thejohnson.group/wp-content/uploads/2023/06/cov.jpg');
+    background: url('https://thejohnson.group/wp-content/uploads/2023/06/myChildFrontPage.jpg');
+    background-size: cover;
     background-repeat: no-repeat;
-    background-size: 100% 100%;
     width: 100%;
     height: 100%;
     position: absolute;
     top: 0;
     left: 0;
+    display:flex;
 "
 >
-
-
-    <p style="padding-top: 50%; padding-left: 8.5%; font-size: 3em; font-weight: bold; color: #30A24D;">
-        TJG KidKit <br/>
+<!--    <img src="https://thejohnson.group/wp-content/uploads/2022/12/tjg_kids.png" />-->
+    <p style="font-size: 3em; font-weight: bold; color: #30A24D; margin-top: 90%; margin-bottom: 0; text-align: center; width: 100%;">
 		<?php echo $user_full_name; ?> <br/>
-        <span style="font-size: 0.5em; font-weight: 400; color: #30A24D;">Emergency Plan</span>
     </p>
 
 
@@ -409,7 +407,7 @@ foreach ( $nested_form_entry_ids as $entry_id ) {
     $photos_field = $e['21'];
     $fingerprints_field = $e['35'];
 
-	$address = ( $e['8'] == 'Yes' ) ? $form_data['field'][6] : $e[''];
+	$address = ( $e['8'] == 'Yes' ) ? $form_data['field'][6] : '';
     $pdf = GPDFAPI::get_pdf_class();
     $output = $pdf->process_html_structure( $e, GPDFAPI::get_pdf_class( 'model' ), $html_config );
 
@@ -434,8 +432,6 @@ PAGE;
     echo processImages($photos_field);
 }
 ?>
-
-<pagebreak/>
 
 <!--
 <div style="background-image: url('https://thejohnson.group/wp-content/uploads/2023/05/planBg.png');background-repeat: no-repeat;background-size: 100% 100%;width: 100%;height: 100%;position: absolute;top: 0;left: 0;">
