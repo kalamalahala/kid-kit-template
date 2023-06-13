@@ -429,7 +429,7 @@ foreach ( $nested_form_entry_ids as $entry_id ) {
     </div> -->
 PAGE;
 
-    echo $page;
+    echo $page; // ???
 
     echo processImages($photos_field);
 }
@@ -459,7 +459,7 @@ function processImages(string $urlString): string {
         $url = stripslashes($url);
         $url = str_replace('[', '', $url);
         $url = str_replace(']', '', $url);
-        $output .= '<img alt="" title="" src="' . $url . '" style="width: 100%; height: auto;"/>'. 'URL:' . $url .'<pagebreak/>';
+        $output .= '<img alt="" title="" src="' . $url . '" style="width: 100%; height: auto;"/><pagebreak/>';
     }
 
     return $output;
