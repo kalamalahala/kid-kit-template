@@ -1,4 +1,5 @@
-<?php global $value_border_colour;
+<?php /** @noinspection DuplicatedCode */
+global $value_border_colour;
 
 /**
  * Template Name: TJG KidKit PDF
@@ -24,67 +25,65 @@
  */
 
 /* Prevent direct access to the template (always good to include this) */
-if ( ! class_exists( 'GFForms' ) ) {
-	return;
+if (!class_exists('GFForms')) {
+    return;
 }
 
 /*
  * Load our core-specific styles from our PDF settings which will be passed to the PDF template $config array
  */
-$show_form_title      = ( $settings['show_form_title'] ?? '' ) === 'Yes';
-$show_page_names      = ( $settings['show_page_names'] ?? '' ) === 'Yes';
-$show_html            = ( $settings['show_html'] ?? '' ) === 'Yes';
-$show_section_content = ( $settings['show_section_content'] ?? '' ) === 'Yes';
-$enable_conditional   = ( $settings['enable_conditional'] ?? '' ) === 'Yes';
-$show_empty           = ( $settings['show_empty'] ?? '' ) === 'Yes';
+$show_form_title = ($settings['show_form_title'] ?? '') === 'Yes';
+$show_page_names = ($settings['show_page_names'] ?? '') === 'Yes';
+$show_html = ($settings['show_html'] ?? '') === 'Yes';
+$show_section_content = ($settings['show_section_content'] ?? '') === 'Yes';
+$enable_conditional = ($settings['enable_conditional'] ?? '') === 'Yes';
+$show_empty = ($settings['show_empty'] ?? '') === 'Yes';
 
 /**
  * Set up our configuration array to control what is and is not shown in the generated PDF
- *
- * @var array
  */
 $html_config = [
-	'settings' => $settings,
-	'meta'     => [
-		'echo'                     => false,
-		/* whether to output the HTML or return it */
-		'exclude'                  => true,
-		/* whether we should exclude fields with a CSS value of 'exclude'. Default to true */
-		'empty'                    => $show_empty,
-		/* whether to show empty fields or not. Default is false */
-		'conditional'              => $enable_conditional,
-		/* whether we should skip fields hidden with conditional logic. Default to true. */
-		'show_title'               => $show_form_title,
-		/* whether we should show the form title. Default to true */
-		'section_content'          => $show_section_content,
-		/* whether we should include a section breaks content. Default to false */
-		'page_names'               => $show_page_names,
-		/* whether we should show the form's page names. Default to false */
-		'html_field'               => $show_html,
-		/* whether we should show the form's html fields. Default to false */
-		'individual_products'      => false,
-		/* Whether to show individual fields in the entry. Default to false - they are grouped together at the end of the form */
-		'enable_css_ready_classes' => true,
-		/* Whether to enable or disable Gravity Forms CSS Ready Class support in your PDF */
-	],
+    'settings' => $settings,
+    'meta' => [
+        'echo' => false,
+        /* whether to output the HTML or return it */
+        'exclude' => true,
+        /* whether we should exclude fields with a CSS value of 'exclude'. Default to true */
+        'empty' => $show_empty,
+        /* whether to show empty fields or not. Default is false */
+        'conditional' => $enable_conditional,
+        /* whether we should skip fields hidden with conditional logic. Default to true. */
+        'show_title' => $show_form_title,
+        /* whether we should show the form title. Default to true */
+        'section_content' => $show_section_content,
+        /* whether we should include a section breaks content. Default to false */
+        'page_names' => $show_page_names,
+        /* whether we should show the form's page names. Default to false */
+        'html_field' => $show_html,
+        /* whether we should show the form's html fields. Default to false */
+        'individual_products' => false,
+        /* Whether to show individual fields in the entry. Default to false - they are grouped together at the end of the form */
+        'enable_css_ready_classes' => true,
+        /* Whether to enable or disable Gravity Forms CSS Ready Class support in your PDF */
+    ],
 ];
 
-$primary_form_id             = 112;
-$nested_form_id              = 113;
+$primary_form_id = 112;
+$nested_form_id = 113;
 $nested_form_entry_id_string = $form_data['field'][9];
-$nested_form_entry_ids       = explode( ',', $nested_form_entry_id_string );
+$nested_form_entry_ids = explode(',', $nested_form_entry_id_string);
 
-$user_full_name = ucwords( $form_data['field'][3]['first'] . ' ' . $form_data['field'][3]['last'] );
-$email          = $form_data['field']['Email'];
-$phone          = $form_data['field']['Phone'];
-$subheading     = "<a href='mailto:$email'>$email</a> | <a href='tel:$phone'>$phone</a>";
+$user_full_name = ucwords($form_data['field'][3]['first'] . ' ' . $form_data['field'][3]['last']);
+$email = $form_data['field']['Email'];
+$phone = $form_data['field']['Phone'];
+$subheading = "<a href='mailto:$email'>$email</a> | <a href='tel:$phone'>$phone</a>";
 
 $street_one = $form_data['field']['Address']['street'] ?? '';
 $street_two = $form_data['field']['Address']['street2'] ?? '';
-$city       = $form_data['field']['Address']['city'] ?? '';
-$state      = $form_data['field']['Address']['state'] ?? '';
-$zip        = $form_data['field']['Address']['zip'] ?? '';
-$country    = $form_data['field']['Address']['country'] ?? '';
+$city = $form_data['field']['Address']['city'] ?? '';
+$state = $form_data['field']['Address']['state'] ?? '';
+$zip = $form_data['field']['Address']['zip'] ?? '';
+$country = $form_data['field']['Address']['country'] ?? '';
 
 $user_address = <<<EOT
 <ul style="list-style-type: none">
@@ -100,6 +99,7 @@ EOT;
 ?>
 <!-- Any PDF CSS styles can be placed in the style tag below -->
 <!-- Include styles needed for the PDF -->
+<!--suppress CssUnusedSymbol, CssReplaceWithShorthandSafely -->
 <style xmlns="http://www.w3.org/1999/html">
     /* Handle Gravity Forms CSS Ready Classes */
     .row-separator {
@@ -330,7 +330,7 @@ EOT;
     }
 
     /*
-	 * Independant Template Styles
+	 * Independent Template Styles
 	 */
     .gfpdf-field .label {
         text-transform: uppercase;
@@ -355,25 +355,21 @@ EOT;
 
 <!-- The PDF content should be placed in here -->
 <div style="
-    background: url('https://thejohnson.group/wp-content/uploads/2023/06/myChildFrontPage.jpg');
     background-size: cover;
-    background-repeat: no-repeat;
+    background: url('https://thejohnson.group/wp-content/uploads/2023/06/myChildFrontPage.jpg') no-repeat;
     width: 100%;
     height: 100%;
     position: absolute;
     top: 0;
     left: 0;
     display:flex;
-"
->
-<!--    <img src="https://thejohnson.group/wp-content/uploads/2022/12/tjg_kids.png" />-->
+">
     <p style="font-size: 3em; font-weight: bold; color: #30A24D; margin-top: 90%; margin-bottom: 0; text-align: center; width: 100%;">
-		<?php echo $user_full_name; ?> <br/>
+        <?php echo $user_full_name; ?> <br/>
     </p>
-
-
 </div>
 
+<!--suppress CheckEmptyScriptTag -->
 <pagebreak/>
 
 <div style="display: grid">
@@ -383,33 +379,33 @@ EOT;
     <!--   content block -->
     <div style="grid-column: 1; grid-row: 2; background-color: #fff; color: #000; padding: 1em; font-size: 1em;display: inline-grid">
         <div style="border-radius: 12px; border: 1px solid #30A24D; padding: 1em; font-size: 1.5em;  text-align: center;">
-			<?php echo $user_full_name; ?>
+            <?php echo $user_full_name; ?>
             <br/>
             <?php echo $user_address; ?>
             <br/>
-			<?php echo $subheading; ?>
+            <?php echo $subheading; ?>
 
         </div>
     </div>
 </div>
 
 <?php
-foreach ( $nested_form_entry_ids as $entry_id ) {
-	// begin list of fields to display
-	$e = GFAPI::get_entry( $entry_id );
+foreach ($nested_form_entry_ids as $entry_id) {
+    // begin list of fields to display
+    $e = GFAPI::get_entry($entry_id);
 
-	$first_name    = ucwords( $e['3.3'] ) ?? '';
-	$last_name     = ucwords( $e['3.6'] ) ?? '';
-	$nickname      = ucwords( $e['4'] ) ?? '';
-	$gender        = ucwords( $e['5'] ) ?? '';
-	$date_of_birth = $e['6'] ?? '';
+    $first_name = ucwords($e['3.3']) ?? '';
+    $last_name = ucwords($e['3.6']) ?? '';
+    $nickname = ucwords($e['4']) ?? '';
+    $gender = ucwords($e['5']) ?? '';
+    $date_of_birth = $e['6'] ?? '';
 
     $photos_field = $e['21'];
     $fingerprints_field = $e['35'];
 
-	$address = ( $e['8'] == 'Yes' ) ? $form_data['field'][6] : '';
+    $address = ($e['8'] == 'Yes') ? $form_data['field'][6] : '';
     $pdf = GPDFAPI::get_pdf_class();
-    $output = $pdf->process_html_structure( $e, GPDFAPI::get_pdf_class( 'model' ), $html_config );
+    $output = $pdf->process_html_structure($e, GPDFAPI::get_pdf_class('model'), $html_config);
 
     $page = <<<PAGE
     <pagebreak/>
@@ -431,21 +427,9 @@ PAGE;
 
     echo processImages($photos_field);
 }
-?>
 
-<!--
-<div style="background-image: url('https://thejohnson.group/wp-content/uploads/2023/05/planBg.png');background-repeat: no-repeat;background-size: 100% 100%;width: 100%;height: 100%;position: absolute;top: 0;left: 0;">
-     Text: vertically centered, horizontal right, 5% padding from edge
-    <div style="position: absolute;top: 50%;left: 5%;transform: translateY(-50%);text-align: right;width: 90%;">
-        <h1 style="font-size: 2.5em;font-weight: 700;color: #fff;text-transform: uppercase;margin-bottom: 0;">Plan</h1>
-        <h2 style="font-size: 1.5em;font-weight: 700;color: #fff;text-transform: uppercase;margin-top: 0;">Your Future</h2>
-    </div>
-</div>
--->
-
-<?php
-
-function processImages(string $urlString): string {
+function processImages(string $urlString): string
+{
     $urlArray = explode(',', $urlString);
     $output = '';
 
@@ -455,6 +439,7 @@ function processImages(string $urlString): string {
         $url = stripslashes($url);
         $url = str_replace('[', '', $url);
         $url = str_replace(']', '', $url);
+        $url = str_replace(home_url('/'), ABSPATH, $url);
         $output .= '<img alt="" title="" src="' . $url . '" style="width: 100%; height: auto;"/><pagebreak/>';
     }
 
